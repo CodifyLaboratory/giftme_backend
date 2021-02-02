@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{% static 'css/semantic.min.css' %}" rel="stylesheet">
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+    <title>Gift Me</title>
+</head>
+<body>
+<div class="ui attached stackable menu">
+    <div class="ui container">
+        <a class="item" href="{% url 'index' %}">
+            <i class=""></i> Home
+        </a>
+
+        {% if user.is_authenticated %}
+        <a class="right item">
+            <i class=""></i> {{ user.email }}
+            <a href="{% url 'logout' %}" class="item">Выход</a>
+        </a>
+        {% else %}
+
+        <a class="right item" href="{% url 'login' %}">Вход</a>
+        <a class="item" href="{% url 'register' %}">
+            <i class=""></i> Регистрация
+        </a>
+
+        {% endif %}
+
+    </div>
+</div>
+{% block content %}
+
+
+{% endblock %}
+</body>
+</html>
