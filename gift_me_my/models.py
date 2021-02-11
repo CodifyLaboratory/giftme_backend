@@ -11,12 +11,14 @@ class Test(Model):
         return self.name
 
 
-class CustomUser(AbstractUser):
-    email = models.EmailField(unique=True)
-    zip_code = models.CharField(max_length=6)
+class GiftMeUser(AbstractUser):
+    email = models.EmailField(max_length=100,unique=True,verbose_name="Электронная почта")
+    about = models.CharField(max_length=200,verbose_name="О себе")
     username = models.CharField(blank=True, null=True, max_length=150)
+    avatar=models.ImageField(upload_to="avatars/")
+    link_to_social=models.CharField(max_length=255,verbose_name="Ссылка на профиль в соц. сетях")
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["zip_code", "username"]
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.email

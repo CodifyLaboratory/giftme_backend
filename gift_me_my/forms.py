@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 
-from gift_me_my.models import Test, CustomUser
+from gift_me_my.models import Test, GiftMeUser
 
 
 class TestForm(ModelForm):
@@ -11,11 +11,11 @@ class TestForm(ModelForm):
 
 class RegisterForm(UserCreationForm):
     class Meta:
-        model = CustomUser
+        model = GiftMeUser
         fields=["email"]
         #exclude=[]
 
 class UserForm(ModelForm):
     class Meta:
-        model = CustomUser
+        model = GiftMeUser
         exclude = []
