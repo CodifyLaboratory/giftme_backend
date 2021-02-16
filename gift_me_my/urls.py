@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LoginView
 from django.urls import path
 
-from gift_me_my.views import IndexView
+from gift_me_my.views import IndexView, MyProfileView, AddHolidayView
 from gift_me_my.views_ext.accounts import RegisterView, ProfileView, LogoutView
 
 urlpatterns = [
@@ -26,5 +26,7 @@ urlpatterns = [
     path('accounts/profile/', ProfileView.as_view()),
     path('accounts/logout/', LogoutView.as_view(), name="logout"),
     path('accounts/register/', RegisterView.as_view(), name="register"),
+    path('profile/add_holiday/', AddHolidayView.as_view(), name="add_holidays"),
+    path('profile/my_profile/', MyProfileView.as_view(), name="my_profile"),
     path('admin/', admin.site.urls),
 ]
