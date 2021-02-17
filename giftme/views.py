@@ -16,3 +16,7 @@ class IndexView(TemplateView):
                 form.save()
                 return redirect("index")
         return render(request, self.template_name, {"form": form})
+
+
+class MyWishView(TemplateView):
+    pass
