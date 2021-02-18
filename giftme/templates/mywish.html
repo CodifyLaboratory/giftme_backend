@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
-
+<br>
 {% block content %}
-
+    <button class="ui primary button" >
+        <a href="{% url 'add_my_wish' %}">Добавить</a>
+    </button>
+    <ul>
+    {% for wish in wishes %}
+        <li>{{ wish.name }}</li>
+    {% empty %}
+        <li>У Вас еще нет желаемого подарка</li>
+    {% endfor %}
+    </ul>
 
 {% endblock %}
