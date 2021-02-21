@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for holiday in holidays %}
+        <div> {{ holiday.name_of_holiday }}</div>
+        <div> {{ holiday.date_of_holiday }}</div>
+    {% endfor %}
+
+{% endblock %}

@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
 
-from giftme.forms import TestForm, AddWishForm
-from giftme.models import Wish
+from giftme.forms import TestForm, AddWishForm, HolidayForm
+from giftme.models import Wish, Holiday
 
 
 class IndexView(TemplateView):
@@ -48,4 +48,27 @@ class AddWishView(TemplateView):
                 form.save()
                 messages.success(request, "Желание успешно добавлено в список")
                 return redirect('/')
+        return render(request, self.template_name, {"form": form})
+
+
+class MyProfileView(TemplateView):
+    template_name = 'profile/my_profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        holidays = Holiday.objects.all()
+        return render(request, self.template_name, context={
+            "holidays": holidays
+        })
+
+
+class AddHolidayView(TemplateView):
+    template_name = "profile/add_holiday.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        form = HolidayForm()
+        if request.method == "POST":
+            form = HolidayForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect("/")
         return render(request, self.template_name, {"form": form})

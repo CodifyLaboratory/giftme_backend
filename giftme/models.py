@@ -19,7 +19,7 @@ class Wish(models.Model):
 
     name = models.CharField(max_length=255, verbose_name="Мое желание")
     photo = models.ImageField(upload_to='wish_pic/', verbose_name='Фото моего желания', null=True, blank=True)
-    # holiday = models.ForeignKey(Holiday, on_delete=models.CASCADE, null=True, blank=True)
+    #holiday = models.ForeignKey(Holiday, on_delete=models.CASCADE, null=True, blank=True)
     link_to_wish = models.URLField(verbose_name="Ссылка на желание")
     status = models.CharField(max_length=50, verbose_name="Статус подарка", choices=STATUS, default='waiting')
 
@@ -43,3 +43,8 @@ class GiftMeUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Holiday(models.Model):
+    name_of_holiday = models.CharField(max_length=30, verbose_name="Название праздника")
+    date_of_holiday = models.DateField("Дата", null=True, blank=True)
