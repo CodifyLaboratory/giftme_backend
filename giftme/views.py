@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView
+from rest_framework.generics import GenericAPIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializer import UserSerializer
 
 from giftme.forms import TestForm, AddWishForm, HolidayForm
 from giftme.models import Wish, Holiday
@@ -72,3 +76,16 @@ class AddHolidayView(TemplateView):
                 form.save()
                 return redirect("/")
         return render(request, self.template_name, {"form": form})
+
+
+class RegisterAPIView(GenericAPIView):
+    serializer_class = UserSerializer
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

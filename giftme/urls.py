@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.views import LoginView
-from django.urls import path
+from django.urls import path, include
 
 from giftme.views_ext.accounts import RegisterView, LogoutView, ProfileView
-from giftme.views import IndexView, MyWishView, AddWishView, MyProfileView, AddHolidayView
+from giftme.views import IndexView, MyWishView, AddWishView, MyProfileView, AddHolidayView, RegisterAPIView
 
 urlpatterns = [
     path('', IndexView.as_view(), name="index"),
@@ -15,5 +15,7 @@ urlpatterns = [
     path('wishes/add/', AddWishView.as_view(), name='add_my_wish'),
     path('profile/add_holiday/', AddHolidayView.as_view(), name="add_holidays"),
     path('profile/my_profile/', MyProfileView.as_view(), name="my_profile"),
-
+    path('register', RegisterAPIView.as_view()),
+    path('reg/', include('djoser.urls')),
+    path('reg/', include('djoser.urls.authtoken')),
 ]
