@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, PermissionsMixin, BaseUserManager
 from django.db import models
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 class Holiday(models.Model):
     name_of_holiday = models.CharField(max_length=30, verbose_name="Название праздника")
@@ -50,10 +52,17 @@ class GiftMeUser(AbstractUser):
     link_to_social = models.CharField(max_length=255, verbose_name="Ссылка на профиль в соц. сетях")
     wish = models.ForeignKey(Wish, on_delete=models.CASCADE, blank=True, null=True, related_name='wishes')
 
-    objects = UserAccountManager
+    # objects = UserAccountManager
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return self.email
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
