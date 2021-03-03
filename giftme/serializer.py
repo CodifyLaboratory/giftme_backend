@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 
-from giftme.models import GiftMeUser
+from giftme.models import GiftMeUser, Holiday
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GiftMeUser
-        fields = ['email', 'password']
+        fields = ['email', 'password', "username"]
 
     def validate(self, attrs):
         email = attrs.get('email', '')
@@ -49,3 +49,9 @@ class LoginSerializer(serializers.ModelSerializer):
         }
 
         return super().validate(attrs)
+
+
+class HolidaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Holiday
+        exclude =[]

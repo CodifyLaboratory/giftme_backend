@@ -8,6 +8,13 @@ class Holiday(models.Model):
     name_of_holiday = models.CharField(max_length=30, verbose_name="Название праздника")
     date_of_holiday = models.DateField("Дата", null=True, blank=True)
 
+    def __str__(self):
+        return self.name_of_holiday
+
+    class Meta:
+        verbose_name = "Мой праздник"
+        verbose_name_plural = "Мои праздники"
+
 
 class Wish(models.Model):
     STATUS = [
