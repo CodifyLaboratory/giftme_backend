@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GiftMeUser
-        fields = ['email', 'password', "username"]
+        fields = ['email', 'password']
 
     def validate(self, attrs):
         email = attrs.get('email', '')

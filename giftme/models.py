@@ -50,8 +50,19 @@ class UserAccountManager(BaseUserManager):
 
         return user
 
+    def create_superuser(self, email, password=None):
+        if not password:
+            raise TypeError('Пароль не должна быть пустым')
+
+        user = self.create_user(email, password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        return user
+
 
 class GiftMeUser(AbstractUser):
+    username = None
     email = models.EmailField(max_length=100, unique=True, verbose_name="Электронная почта")
     about = models.CharField(max_length=200, verbose_name="О себе")
     birth_date = models.DateField(null=True, blank=True)
@@ -59,10 +70,10 @@ class GiftMeUser(AbstractUser):
     link_to_social = models.CharField(max_length=255, verbose_name="Ссылка на профиль в соц. сетях")
     wish = models.ForeignKey(Wish, on_delete=models.CASCADE, blank=True, null=True, related_name='wishes')
 
-    # objects = UserAccountManager
+    objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email
