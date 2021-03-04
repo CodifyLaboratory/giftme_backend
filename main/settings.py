@@ -100,8 +100,8 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = 'django.core.mail.backends.stmp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'kubat.usubaliev@gmail.com'
-EMAIL_HOT_PASSWORD = '@itpaim!'
+EMAIL_HOST_USER = os.getenv('USERNAME')
+EMAIL_HOT_PASSWORD = os.getenv('USER_PASSWORD')
 EMAIL_USE_TLS = True
 
 # Djoser settings
