@@ -1,13 +1,14 @@
 import json
 
+from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.views import View
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Holiday
-from .serializer import UserSerializer, LoginSerializer, HolidaySerializer
+from .serializer import UserSerializer, LoginSerializer, HolidaySerializer, LogoutSerializer
 
 
 class RegisterAPIView(generics.GenericAPIView):
@@ -31,6 +32,18 @@ class LoginAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class LogoutAPIView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class HolidayAPIView(View):
