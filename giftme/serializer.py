@@ -3,7 +3,7 @@ from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from giftme.models import GiftMeUser, Holiday
+from giftme.models import GiftMeUser, Holiday, Wish
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -56,6 +56,16 @@ class HolidaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Holiday
         exclude =[]
+
+
+class WishListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Wish
+        fields = ['name', 'status']
+
+
+class WishDetailSerializer(serializers.ModelSerializer):
+    pass
 
 
 class LogoutSerializer(serializers.Serializer):

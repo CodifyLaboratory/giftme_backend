@@ -3,12 +3,16 @@ import json
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.views import View
+from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework import generics, permissions
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import Holiday
-from .serializer import UserSerializer, LoginSerializer, HolidaySerializer, LogoutSerializer
+from .models import Holiday, Wish
+from .serializer import UserSerializer, LoginSerializer, HolidaySerializer, LogoutSerializer, WishListSerializer, \
+    WishDetailSerializer
 
 
 class RegisterAPIView(generics.GenericAPIView):
@@ -60,3 +64,16 @@ class HolidayAPIView(View):
             return JsonResponse({"status": "SUCCESS"}, status=201)
         else:
             return JsonResponse(serializer.errors, status=400)
+
+
+class WishAPIView(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Wish.objects.all()
+        serializer = WishListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def detail(self, request, pk=None):
+        queryset = Wish.objects.all()
+        wish = get_object_or_404(queryset, pk=pk)
+        serialize = WishDetailSerializer(wish)
+        return Response(serialize.data)
