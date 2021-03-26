@@ -3,7 +3,7 @@ from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from giftme.models import GiftMeUser, Holiday, Wish
+from giftme.models import GiftMeUser, Holiday, Wish, Profile
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -84,3 +84,9 @@ class LogoutSerializer(serializers.Serializer):
             RefreshToken(self.token).blacklist()
         except TokenError:
             self.fail('bad_token')
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        exclude = []

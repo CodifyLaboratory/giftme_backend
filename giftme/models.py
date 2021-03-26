@@ -84,3 +84,8 @@ class GiftMeUser(AbstractUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+
+class Profile(models.Model):
+    holiday_list = models.ForeignKey(Holiday, verbose_name="Список моих праздников", on_delete=models.CASCADE)
+    wish_list = models.ForeignKey(Wish, verbose_name="Список моих желаний", on_delete=models.CASCADE)

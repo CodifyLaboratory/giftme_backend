@@ -9,10 +9,11 @@ from rest_framework import generics, permissions
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
 
-from .models import Holiday, Wish
+from .models import Holiday, Wish, Profile
 from .serializer import UserSerializer, LoginSerializer, HolidaySerializer, LogoutSerializer, WishListSerializer, \
-    WishDetailSerializer
+    WishDetailSerializer, ProfileSerializer
 
 
 class RegisterAPIView(generics.GenericAPIView):
@@ -50,22 +51,24 @@ class LogoutAPIView(generics.GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class HolidayAPIView(View):
-    def get(self, request, *args, **kwargs):
-        holidays = Holiday.objects.all()
-        serializer = HolidaySerializer(holidays, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    def post(self, request, *args, **kwargs):
-        data = json.loads(request.body)
-        serializer = HolidaySerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse({"status": "SUCCESS"}, status=201)
-        else:
-            return JsonResponse(serializer.errors, status=400)
+class HolidayAPIView(ModelViewSet):
+    queryset = Holiday.objects.all()
+    serializer_class = HolidaySerializer
 
 
-class WishAPIView(viewsets.ModelViewSet):
-    serializer_class = WishListSerializer
-    queryset = Wish.objects.all()
+class WishAPIView(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Wish.objects.all()
+        serializer = WishListSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def detail(self, request, pk=None):
+        queryset = Wish.objects.all()
+        wish = get_object_or_404(queryset, pk=pk)
+        serialize = WishDetailSerializer(wish)
+        return Response(serialize.data)
+
+
+class ProfileAPIView(ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
