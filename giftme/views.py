@@ -66,14 +66,6 @@ class HolidayAPIView(View):
             return JsonResponse(serializer.errors, status=400)
 
 
-class WishAPIView(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Wish.objects.all()
-        serializer = WishListSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-    def detail(self, request, pk=None):
-        queryset = Wish.objects.all()
-        wish = get_object_or_404(queryset, pk=pk)
-        serialize = WishDetailSerializer(wish)
-        return Response(serialize.data)
+class WishAPIView(viewsets.ModelViewSet):
+    serializer_class = WishListSerializer
+    queryset = Wish.objects.all()
